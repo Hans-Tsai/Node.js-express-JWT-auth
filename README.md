@@ -44,7 +44,7 @@ Node.js + Express framework Authentication with JWT token
       > 節錄自官方文件: Returns middleware that only parses JSON and only looks at requests where the `Content-Type` header matches the `type` option
     * 註: 從 Express ~4.16.0 之後，Express 官方已經將 `body-parser` 的功能整合內建到 express.js 函式庫中了!
 
-> Node Auth Tutorial (JWT) #2 - Auth Routes & Controllers --- [課程影片連結](https://www.youtube.com/watch?v=uiKwHx2K1Fo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=3)
+> Node Auth Tutorial (JWT) #3 - Testing Routes & Handling POST Requests --- [課程影片連結](https://www.youtube.com/watch?v=uiKwHx2K1Fo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=3)
 
 ### Ch04 --- 建立 `User` 模型 (Model)
 - 可透過 [Mongoose](https://mongoosejs.com/) 這個 ODM(Object Document Mapping) 函式庫，來建立對應在 MongoDB No-SQL 資料庫中的 `User` collection 的模型(Model)
@@ -61,6 +61,21 @@ Node.js + Express framework Authentication with JWT token
     * 功能: 在本地端新建一個該模型的實例(the instance of that specified Model object)，並將這個實例(instance)出存到 MongoDB 資料庫中
     * 提醒! 此方法為非同步方法 (async method)，必須要搭配 `async`、`await` 修飾子使用
     * > 節錄自官方文件: saving one or more documents to the database. `MyModel.create(docs)` does `new MyModel(doc).save()` for every `doc` document into the `docs` collection.
+
+> Node Auth Tutorial (JWT) #4 - User Model - Auth Routes & Controllers --- [課程影片連結](https://www.youtube.com/watch?v=mnJxyc0DGM8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=4)
+
+### Ch05 --- Mongoose 內建的 Validation 功能
+- 將 `models/User.js` 檔案中的 `User Model Schema` 各欄位屬性設定加上錯誤訊息顯示，這是 mongoose 內建的設定錯誤訊息的功能，有以下 2 種方式能設定錯誤訊息
+  + E.g. **Array 形式**: `min: [6, 'Must be at least 6, got {VALUE}']`
+  + E.g. **Object 形式**: `enum: { values: ['Coffee', 'Tea'], message: '{VALUE} is not supported' }`
+  + 註: mongoose validation 功能也支援基礎的模板字串語法，如同上面範例中的 `{VALUE}` 即表示當前正在進行驗證的欄位值
+- 實戰中，常用到的驗證功能可搭配 npm 上的 [validator.js](https://www.npmjs.com/package/validator) 函式庫來實現，在這個函式庫中有許多常見的驗證功能，E.g. `isEmail()`、`isCreditCard()` ...等等
+- 在 controller 中，建立一個用來專門產生錯誤事件的物件(=> errors object)的事件處理函數，該函數能依據各 API 拋出的 Error 物件中的以下 2 種常見屬性，來回傳一個新的錯誤事件的物件。
+  + `err.message`: 錯誤事件的訊息
+  + `err.code`: 錯誤事件的編號
+  + 在這次的教學會實作 `E11000: MongoDB duplicate key error`、`validation error` 兩個錯誤訊息優化功能
+
+> Node Auth Tutorial (JWT) #5 - Mongoose Validation --- [課程影片連結](https://www.youtube.com/watch?v=nukNITdis9g&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=5)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)

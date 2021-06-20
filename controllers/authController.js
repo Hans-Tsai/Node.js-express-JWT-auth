@@ -1,5 +1,25 @@
 const User = require('../models/User');
 
+/** 建立一個用來專門產生錯誤事件的物件(=> errors object)的錯誤事件處理函數 */
+const handlerErrors = (err) => {
+  // err.message: 錯誤事件的訊息，err.code: 錯誤事件的編號
+  let errors = { email: '', password: '' };
+
+  // MongoDB duplicate key error
+  if (err.code === 11000) {
+    errors['email'] = 'that email is already registered';
+    return errors;
+  }
+
+  // validation error
+  if (err.message.includes('user validation failed')) {
+    Object.values(err.errors).forEach(properties => {
+      errors[properties.path] = properties.message;
+    })
+  }
+  return errors;
+};
+
 const signup_get = (req, res) => {
   res.render('signup');
 };
@@ -11,9 +31,9 @@ const signup_post = async (req, res) => {
     res.status(201).json(user);
   } 
   catch (err) {
-    // 若使用者未輸入 email 或 password 的情況時，會導致上面的程式碼拋出錯誤
-    console.log(err);
-    res.status(400).send('error, user not created');
+    // 若使用者未輸入 email 或 password ...等等的情況時，會導致上面的程式碼拋出錯誤
+    const errors = handlerErrors(err);
+    res.status(400).json({ errors });
   }
 };
 const login_get = (req, res) => {
