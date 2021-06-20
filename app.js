@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -17,6 +18,11 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
   .then((result) => app.listen(3000))
   .catch((err) => console.log(err));
 
-/** 設定路由 (routes) */
+//#region 
+/** 設定路由器 (routes) */
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
+// 相當於透過 `express app` 的中介函數來套用整個設定好的 `authRoutes` 路由器物件
+app.use(authRoutes);
+
+//#endregion
