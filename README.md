@@ -17,6 +17,18 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #1 - Intro & Setup --- [課程影片連結](https://www.youtube.com/watch?v=SnoAwLP1a-0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp)
 
+### Ch02 --- 設定 for 權限驗證功能的路由器(routes) & 控制器 (controllers)
+- 此專案的 authentication routes 會有以下 5 個
+  + | route | RESTful APIs method | description |
+    | ----- | ------------------- | ----------- |
+    | **/signup** | `GET` | sign up page |
+    | **/signup** | `POST` | create a new user in db |
+    | **/login** | `GET` | log **in** page |
+    | **/login** | `POST` | authenticate a current user |
+    | **/logout** | `GET` | log a user out |
+
+> Node Auth Tutorial (JWT) #2 - Auth Routes & Controllers --- [課程影片連結](https://www.youtube.com/watch?v=muhJTRQ7WMk&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=3)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - **The Net Ninja** YouTube 頻道上的 [**Node.js Auth Tutorial (JWT)**](https://www.youtube.com/watch?v=SnoAwLP1a-0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp) 系列教學
