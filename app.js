@@ -4,10 +4,14 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
-/** 中介函數 (middleware)
- * @description 設定 express app 的靜態資料夾為 `./public/`
-*/
+//#region 
+/** 中介函數 (middleware) */
+// 設定 express app 的靜態資料夾為 `./public/`
 app.use(express.static('public'));
+// 將 API request 夾帶的 JSON 資料"解析"成 Javascript 的物件 (object) 形式
+app.use(express.json());
+
+//#endregion
 
 /** 指定 view engine 為 `ejs` 模板引擎 */
 app.set('view engine', 'ejs');
