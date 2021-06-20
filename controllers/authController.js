@@ -2,13 +2,13 @@ const signup_get = (req, res) => {
   res.render('signup');
 };
 const signup_post = (req, res) => {
-  res.render('new signup');
+  res.send('new signup');
 };
 const login_get = (req, res) => {
   res.render('login');
 };
 const login_post = (req, res) => {
-  res.render('user login');
+  res.send('user login');
 };
 
 module.exports = {
