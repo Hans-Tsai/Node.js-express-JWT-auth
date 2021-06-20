@@ -44,7 +44,7 @@ Node.js + Express framework Authentication with JWT token
       > 節錄自官方文件: Returns middleware that only parses JSON and only looks at requests where the `Content-Type` header matches the `type` option
     * 註: 從 Express ~4.16.0 之後，Express 官方已經將 `body-parser` 的功能整合內建到 express.js 函式庫中了!
 
-> Node Auth Tutorial (JWT) #2 - Auth Routes & Controllers --- [課程影片連結](https://www.youtube.com/watch?v=uiKwHx2K1Fo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=3)
+> Node Auth Tutorial (JWT) #3 - Testing Routes & Handling POST Requests --- [課程影片連結](https://www.youtube.com/watch?v=uiKwHx2K1Fo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=3)
 
 ### Ch04 --- 建立 `User` 模型 (Model)
 - 可透過 [Mongoose](https://mongoosejs.com/) 這個 ODM(Object Document Mapping) 函式庫，來建立對應在 MongoDB No-SQL 資料庫中的 `User` collection 的模型(Model)
@@ -61,6 +61,8 @@ Node.js + Express framework Authentication with JWT token
     * 功能: 在本地端新建一個該模型的實例(the instance of that specified Model object)，並將這個實例(instance)出存到 MongoDB 資料庫中
     * 提醒! 此方法為非同步方法 (async method)，必須要搭配 `async`、`await` 修飾子使用
     * > 節錄自官方文件: saving one or more documents to the database. `MyModel.create(docs)` does `new MyModel(doc).save()` for every `doc` document into the `docs` collection.
+
+> Node Auth Tutorial (JWT) #4 - User Model - Auth Routes & Controllers --- [課程影片連結](https://www.youtube.com/watch?v=mnJxyc0DGM8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=4)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
