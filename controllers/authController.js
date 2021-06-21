@@ -3,9 +3,14 @@ const jwt = require('jsonwebtoken');
 
 //#region 
 /** 建立一個用來專門產生錯誤事件的物件(=> errors object)的錯誤事件處理函數 */
-const handlerErrors = (err) => {
+const handleErrors = (err) => {
   // err.message: 錯誤事件的訊息，err.code: 錯誤事件的編號
   let errors = { email: '', password: '' };
+
+  // email 驗證錯誤
+  if (err.message === 'incorrect email') errors.email = 'That email isn\'t registered.';
+  // password 驗證錯誤
+  if (err.message === 'incorrect password') errors.password = 'That password is incorrect';
 
   // MongoDB duplicate key error
   if (err.code === 11000) {
@@ -51,7 +56,7 @@ const signup_post = async (req, res) => {
   } 
   catch (err) {
     // 若使用者未輸入 email 或 password ...等等的情況時，會導致上面的程式碼拋出錯誤
-    const errors = handlerErrors(err);
+    const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
 };
@@ -63,10 +68,15 @@ const login_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
+    // 產生一個帶有簽章(signature)的 JWT token
+    const token = createToken(user._id);
+    // 將這個 JWT token 儲存到 response 物件的 cookie 中，並設定只能給 Web Server 的發送 http(s) request 的時候才能使用，以防止客戶端透過 javascript 來算改此 JWT token
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxValidDuration * 1000 });
     res.status(200).json({ user: user._id })
   }
   catch (err) {
-    res.status(400).json({});
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
   }
 };
 
