@@ -272,6 +272,22 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #17 - Checking the Current User --- [課程連結](https://www.youtube.com/watch?v=JqF2BJBQI9Y&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=17)
 
+### Ch18 --- 條件式渲染頁面 (Conditional Rendering)
+- 可透過前一個章節中，儲存到 local variable 的使用者(`user`)物件，來將其 `user.email` 屬性搭配 `ejs` 模板引擎的 `if { ... } else { ... }` 來實作條件式渲染頁面
+  + ```HTML
+    <ul>
+      <% if (user) { %>
+        <li>Welcome, <%= user.email %></li>
+        <li><a href="/logout">Log out</a></li>
+      <% } else { %>
+        <li><a href="/login">Log in</a></li>
+        <li><a href="/signup" class="btn">Sign up</a></li>
+      <% } %>
+    </ul>
+    ```
+
+> Node Auth Tutorial (JWT) #18 - Conditional Rendering --- [課程連結](https://www.youtube.com/watch?v=mqubRYtnPcs&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=18)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
