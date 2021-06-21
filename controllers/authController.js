@@ -61,7 +61,13 @@ const login_get = (req, res) => {
 const login_post = async (req, res) => {
   // 透過 express.json() 將 `POST` request 夾帶的 JSON 資料解析成 Javascript 的物件形式後，儲存到該 POST RESTful API 的 `request.body` 
   const { email, password } = req.body;
-  res.send('user login');
+  try {
+    const user = await User.login(email, password);
+    res.status(200).json({ user: user._id })
+  }
+  catch (err) {
+    res.status(400).json({});
+  }
 };
 
 module.exports = {

@@ -215,10 +215,33 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #12 - New User Signup (part 2) --- [課程連結](https://www.youtube.com/watch?v=eWGwQ1__73E&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=12)
 
+### Ch13 --- 新使用者的註冊功能 (part 02)
+- **建立一個 User Model 的 `login` 靜態方法**: 在 `models/User.js` 中，建立一個靜態方法(static function)到 `User Model` 上，來實作驗證使用者登入的功能。在這個 `User.login` 方法中，我們可以傳入 `email`、`password` 兩個參數值進去，就能透過後端伺服器到 MongoDB 資料庫驗證此使用者
+  + Mongoose 有內建 `Schema.statics.<funcName> = function () { ... };` 的方法來讓開發者能夠對 User Model 建立一個靜態方法(static method)
+  > 節錄自 Mongoose 官方文件: You can also add static functions to your model. There are two equivalent ways to add a static:
+    > * Add a function property to schema.statics
+    > * Call the [Schema#static() function](https://mongoosejs.com/docs/api.html#schema_Schema-static)
+    * ```javascript
+      // Assign a function to the "statics" object of our animalSchema
+      animalSchema.statics.findByName = function(name) {
+        return this.find({ name: new RegExp(name, 'i') });
+      };
+      // Or, equivalently, you can call `animalSchema.static()`.
+      animalSchema.static('findByBreed', function(breed) { return this.find({ breed }); });
+
+      const Animal = mongoose.model('Animal', animalSchema);
+      let animals = await Animal.findByName('fido');
+      animals = animals.concat(await Animal.findByBreed('Poodle'));
+      ```
+    > 註: Do not declare statics using ES6 arrow functions (`=>`). Arrow functions explicitly prevent binding `this`, so the above examples will not work because of the value of `this`. 
+- 在對應到 `controller` 檔案(`controllers/authController.js`) 的 `login_post` API request handler 中，呼叫 `User.login(email, password)` 靜態方法，來執行使用者驗證的功能
+
+> Node Auth Tutorial (JWT) #13 - Logging Users in (part 1) --- [課程連結](https://www.youtube.com/watch?v=VliJT26LPFA&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=13)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
+- [Mongoose Schema Static 章節](https://mongoosejs.com/docs/guide.html#statics)
 - [Cross Site Request Forgery (CSRF) 攻擊 --- 介紹](https://owasp.org/www-community/attacks/csrf)
 - [Cookie 和 Session 究竟是什麼？有什麼差別？ --- by AlphaCamp](https://tw.alphacamp.co/blog/cookie-session-difference)
 - **The Net Ninja** YouTube 頻道上的 [**Node.js Auth Tutorial (JWT)**](https://www.youtube.com/watch?v=SnoAwLP1a-0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp) 系列教學

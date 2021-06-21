@@ -33,9 +33,7 @@
         method: 'POST',
         // `body` 的屬性值必須為 string 或 物件(object) 的形式
         body: JSON.stringify({ email, password }),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
+        headers: { 'Content-Type': 'application/json' },
       });
       const data = await res.json();
       if (data.errors) {
