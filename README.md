@@ -113,16 +113,16 @@ Node.js + Express framework Authentication with JWT token
 - 接下來，`cookie` 會隨著 server response 一併回傳給瀏覽器。之後，當瀏覽器接受到這個 `cookie` 時，就會將它註冊(register)在使用者的瀏覽器中
 - 之後，每當瀏覽器對指定的 RESTful API 發出 request 時，就會夾帶這個 `cookie` 上的資料一併發出 API request
 - cookie 運作機制的整合圖例:
-  + ![Imgur](https://i.imgur.com/egvT56A.gifv)
+  + <a href="https://imgur.com/egvT56A"><img src="https://i.imgur.com/egvT56A.gif" title="source: imgur.com" /></a>
 > 註: 而正因為他是儲存在我們用戶的本機端，通常可以儲存的地方有兩個：記憶體 or 硬體內。記憶體是由瀏覽器(browser)來維護的，通常會在瀏覽器關閉後清除，而各個瀏覽器之間的 `cookie` 是無法相互使用，也就是說對於在同一台電腦上使用 Chrome 或是 Firefox，僅管操作的是同一個人，卻是會認成兩個不一樣的角色。而硬體的 `cookie` 則會有一個保存期限，除非過期或是手動刪除，不然他的儲存時間會較瀏覽器來的長。
-- `cookie` 可以夾帶 `JWT token` 讓我們能夠透過它來進行權限驗證
-- 實戰中，可利用 npm 上的第三方函式庫 [cookie-parser.js](https://www.npmjs.com/package/cookie-parser)來將 API request 夾帶的 `cookie header` 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 `req.cookies` 的屬性值，並綁定到 `request` 物件上。
+- **`cookie` 可以夾帶 `JWT token` 讓我們能夠透過它來進行權限驗證**
+- 實戰中，可利用 npm 上的第三方函式庫 [cookie-parser.js](https://www.npmjs.com/package/cookie-parser)來將 API request 夾帶的 `cookie` 中的 `cookie header` 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 `req.cookies` 的屬性值，並綁定到 `request` 物件上。
   + 範例做法: 
     * ```javascript
       const cookieParser = require('cookie-parser');
 
       /** 中介函數 (middleware) */
-      // 將 API request 夾帶的 cookie header 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 req.cookies 的屬性值，並綁定到 `request` 物件上
+      // 將 API request 夾帶的 `cookie` 中的 `cookie header` 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 req.cookies 的屬性值，並綁定到 `request` 物件上
       app.use(cookieParser());
 
       /** 設定 Cookie 的鍵/值資料 */
@@ -142,6 +142,65 @@ Node.js + Express framework Authentication with JWT token
       ```
 
 > Node Auth Tutorial (JWT) #9 - Cookies Primer --- [課程影片連結](https://www.youtube.com/watch?v=mevc_dl1i1I&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=9)
+
+### Ch10 --- JSON Web Token(= JWT) 理論
+- `JWT token` 是由伺服器端(server)所創造的，再回傳給瀏覽器(browser)，然後瀏覽器會將這個 `JWT token` 儲存在 `cookie` 中，以利這個瀏覽器在未來發送到對應的 RESTful API request 時，能攜帶這個 `JWT token` 來讓伺服器端認證(authenticate)該瀏覽器的使用者
+  + ![Imgur](https://i.imgur.com/KfNkZFe.png)
+- `JWT token` 的結構主要可以拆解成 3 部分
+  + `header`: 標頭。即用來告訴伺服器端，這個 `JWT token` 是採用哪種簽章形式(type of signature)? 通常，`header` 會包含以下 2 個部分，也就是這個 `JWT token` 的元資料(meta data)
+    * `type`: 即採用的 token 形式，e.g. `JWT`
+    * `alg`: 即採用的簽章演算法(signing algorithm)形式，e.g. `HMAC` or `SHA256` or `RSA`
+    * 範例:
+      * ```json
+        {
+          "alg": "HS256",
+          "typ": "JWT"
+        }
+        ```
+      > 註: 以上的 JSON 物件，會被透過 **Base64Url** 演算法來編碼(encode)成之後的 `JWT token` 的第一段主要部分
+  + `payload`: 有效訊息。當 `payload` 中的資訊被解碼(decoded)後，能幫助我們辨別出這個瀏覽器的使用者是誰? 會包含 userID 等等的資訊。通常，`payload` 會包含以下 3 個部分
+    * `Registered claims`(標准中注冊的聲明): 建議但不強制使用。通常會包含
+      * `iss`: 該 `JWT token` 的簽發者
+      * `sub`: 該 `JWT token` 的主要目的
+      * `aud`: 該 `JWT token` 的目標接收者
+      * `exp`: 該 `JWT token` 的過期時間，這個過期時間必須要 **>** `JWT token` 的簽發時間
+    * `Public claims`: 公共的聲明。這裡能新增任何的訊息，一般用來添加用戶的相關訊息 or 其它業務需要的必要訊息。**但不建議添加敏感訊息，因為該部分在客戶端(client)可解密**
+    * `Private claims`: 私有聲明。這裡是 `JWT token` 提供者 & 消費者所共同定義的聲明。**一般不建議存放敏感訊息，因為 `base64` 是能對稱解密的，即表示該部分訊息可以歸類為明文訊息**
+    * 範例:
+      * ```json
+        {
+          "sub": "1234567890",
+          "name": "John Doe",
+          "admin": true
+        }
+        ```
+      > 註: 以上的 `payload` 物件，會被透過 **Base64Url** 演算法來編碼(encode)成之後的 `JWT token` 的第二段主要部分
+  + `signature`: 簽章。即用來保護這個 `JWT token` 是安全且不會被客戶端(client)隨意竄改、攔截的。這個簽章是由前面的 `header`、`payload` 兩個參數值所組成的，並搭配 `secret` 來進行加密。通常，`payload` 會包含以下 3 個部分
+    * `encoded header`: 已經由 **Base64Url** 演算法編碼後的 `header`，會取用裡面的 `alg` 屬性值來作為這次要產生的 `JWT token` 指定演算法基礎
+    * `encoded payload`: 已經由 **Base64Url** 演算法編碼後的 `payload`
+    * `secret`: 相當於 **bcrypt.js** 的 `salt`。儲存在伺服器端(server)的，**必須是非公開的**。
+    * 範例: 若我們想使用 `HMAC SHA256` 演算法來產生一段簽章(signature)
+      * ```javascript
+        HMACSHA256(
+          base64UrlEncode(header) + "." +
+          base64UrlEncode(payload),
+          secret)
+        ```
+  + 綜合以上 `header`、`payload`、`signature`，`JWT token` 會有三段主要部分
+    + **`Header.Payload.Signature`**
+      * ![Imgur](https://i.imgur.com/IYwNrn1.png)
+      * ![Imgur](https://i.imgur.com/wYmVXJZ.png)
+    + 而瀏覽器會得到經由 `Base64URL` 演算法加密後的結果
+      * ![Imgur](https://i.imgur.com/wMkAUlE.png)
+      * ![Imgur](https://i.imgur.com/r7ZXpAL.png)
+- 伺服器端的 `JWT token` 的驗證流程
+  + 伺服器端根據客戶端發過來的 API request，來產生相對應的 `JWT token`，並回傳給客戶端
+  + 客戶端儲存下這個 `JWT token`，並在後續的每次對相對應的 RESTful API 發出 request 時，都會在 `cookie` 中夾帶這個 `JWT token` **以作為伺服器端驗證該瀏覽器上的使用者資訊的對照結果**
+    * ![Imgur](https://i.imgur.com/9oSb4AX.png)
+    * ![Imgur](https://i.imgur.com/Lt82sWe.png)
+  + 伺服器端會透過儲存在伺服器(server)上的 `secret`，搭配客戶端傳來的 `header`、`payload` 伺服器端的 `secret` 來進行編碼。並拿這次編碼的結果與 `JWT token` 做比對，若相符，就允許通過驗證; 反之，則拒絕這次的驗證請求
+
+> Node Auth Tutorial (JWT) #10 - JSON Web Tokens (theory) --- [課程影片連結](https://www.youtube.com/watch?v=LZq0G8WUaII&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=10)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)

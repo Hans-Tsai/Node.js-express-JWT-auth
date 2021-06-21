@@ -11,7 +11,7 @@ const app = express();
 app.use(express.static('public'));
 // 將 API request 夾帶的 JSON 資料"解析"成 Javascript 的物件 (object) 形式
 app.use(express.json());
-// 將 API request 夾帶的 cookie header 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 req.cookies 的屬性值，並綁定到 `request` 物件上
+// 將 API request 夾帶的 `cookie` 中的 `cookie header` 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 req.cookies 的屬性值，並綁定到 `request` 物件上
 app.use(cookieParser());
 
 //#endregion
