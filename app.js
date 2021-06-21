@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
-const { requireAuth } = require('./middleware/authMiddleware');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -28,6 +28,8 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 
 //#region 
 /** 設定路由器 (routes) */
+// 套用顯示使用者資訊在畫面上的中介函數到這個網站的所有路徑上
+app.get('*', checkUser)
 app.get('/', (req, res) => res.render('home'));
 // 若對 `/smoothies` 這個頁面發送 `GET` request 時，必須先通過 `requireAuth` 這個中介函數來驗證客戶端(e.g. browser)是否在 `cookie` 中存有能通過驗證的 `JWT token`
 app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
