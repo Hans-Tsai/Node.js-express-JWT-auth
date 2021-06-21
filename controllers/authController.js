@@ -1,5 +1,7 @@
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
+//#region 
 /** 建立一個用來專門產生錯誤事件的物件(=> errors object)的錯誤事件處理函數 */
 const handlerErrors = (err) => {
   // err.message: 錯誤事件的訊息，err.code: 錯誤事件的編號
@@ -20,6 +22,19 @@ const handlerErrors = (err) => {
   return errors;
 };
 
+/** 建立一個用來產生 JWT token 的函數 
+ * @returns 回傳一個帶有簽章(signature)的 JWT token
+*/
+// JWT token 的有效期間長度，`res.sign()` 是以秒為單位
+const maxValidDuration = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, 'Hans Smoothies secret', {
+    expiresIn: maxValidDuration,
+  });
+};
+
+//#endregion
+
 const signup_get = (req, res) => {
   res.render('signup');
 };
@@ -28,7 +43,11 @@ const signup_post = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.create({ email, password });
-    res.status(201).json(user);
+    // 產生一個帶有簽章(signature)的 JWT token
+    const token = createToken(user._id);
+    // 將這個 JWT token 儲存到 response 物件的 cookie 中，並設定只能給 Web Server 的發送 http(s) request 的時候才能使用，以防止客戶端透過 javascript 來算改此 JWT token
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxValidDuration * 1000 });
+    res.status(201).json({ user: user._id });
   } 
   catch (err) {
     // 若使用者未輸入 email 或 password ...等等的情況時，會導致上面的程式碼拋出錯誤

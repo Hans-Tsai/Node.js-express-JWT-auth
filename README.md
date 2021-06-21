@@ -202,6 +202,13 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #10 - JSON Web Tokens (theory) --- [課程影片連結](https://www.youtube.com/watch?v=LZq0G8WUaII&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=10)
 
+### Ch11 --- 新使用者的註冊功能 (part 01)
+- 實戰中可利用 npm 上的 [jsonwebtoken.js](https://www.npmjs.com/package/jsonwebtoken) 第三方函式庫來實現伺服器端的權限驗證功能。
+- 在對應到 `controller` 檔案(`controllers/authController.js`)中，利用 `jwt.sign()` 方法來產生一個帶有簽章(signature)的 `JWT token`
+- 在對應到 `controller` 檔案(`controllers/authController.js`)中，找到需要使用到這個 `JWT token` 的 RESTful APIs 的處理器函數(handler functions)裡面，將這個 `JWT token` 儲存到 `response` 物件的 `cookie` 中。最後，再透過 Express 的 `res.json()` 回傳給客戶端(client)
+ 
+> Node Auth Tutorial (JWT) #11 - New User Signup (part 1) --- [課程連結](https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)

@@ -34,20 +34,3 @@ app.use(authRoutes);
 
 //#endregion
 
-//#region
-/** 設定 Cookie 的鍵/值資料 */
-app.get('/set-cookies', (req, res) => {
-  // res.setHeader('Set-cookie', 'newUser=true');
-
-  res.cookie('newUser', true);
-  // 實戰中，權限驗證需在 HTTPS 中執行，因此必須加上 `secure: true` 的選項
-  res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
-  res.send('you got the cookies!');
-});
-/** 透過 cookie-parser 函式庫，將產生出來的 `req.cookies` 以 JSON 的形式回傳給 client 端 */
-app.get('/get-cookies', (req, res) => {
-  const cookies = req.cookies;
-  res.json(cookies);
-});
-
-//#endregion
