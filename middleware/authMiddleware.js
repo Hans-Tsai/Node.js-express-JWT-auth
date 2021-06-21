@@ -32,7 +32,7 @@ const requireAuth = (req, res, next) => {
 const checkUser = async (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, 'Hans Smoothies secret', (err, decodedToken) => {
+    jwt.verify(token, 'Hans Smoothies secret', async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         // 預設 response 物件中的 `local` 變數中的 `user` 屬性值為 `null`
