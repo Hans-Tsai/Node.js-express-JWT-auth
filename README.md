@@ -251,6 +251,15 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #15 - Protecting Routes --- [課程連結](https://www.youtube.com/watch?v=9N7uqbuODqs&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=15)
 
+### Ch16 --- 建立使用者登出功能
+- 其實若我們到 **Chrome/Application/Storage/Cookies** 中，將 `JWT token` 刪除的話，也能強制讓客戶端登出。但我們不可能期待一般用戶會這麼做，因此還是必須實作登出功能，並綁定到前端頁面上。
+- 注意! 因為我們無法從伺服器端刪除客戶端 `cookie` 內的 `JWT token`，我們只能將客戶端的 `cookie` 替換(replace)成一個空值(blank value)，並設定一個非常快就要過期的時間
+  + ```javascript
+    res.cookie('jwt', '', { maxAge: 1 });
+    ```
+
+> Node Auth Tutorial (JWT) #16 - Logging Users Out --- [課程連結](https://www.youtube.com/watch?v=jQn74jB5dg0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=16)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)

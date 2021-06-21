@@ -80,9 +80,16 @@ const login_post = async (req, res) => {
   }
 };
 
+const logout_get = (req, res) => {
+  // 將要回傳給客戶端的 response 物件中的 `cookie` 設定為空值
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.redirect('/');
+};
+
 module.exports = {
   signup_get,
   signup_post,
   login_get,
   login_post,
+  logout_get,
 };
