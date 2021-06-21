@@ -260,6 +260,18 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #16 - Logging Users Out --- [課程連結](https://www.youtube.com/watch?v=jQn74jB5dg0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=16)
 
+### Ch17 --- 確認當前的使用者
+- 建立一個能夠確認當前的使用者的中介函數，用來讓前端頁面能顯示在畫面上目前是由哪個使用者登入這個網站
+  + 一樣要先確保客戶端 `cookie` 內的 `JWT token` 存在 & 有效
+  + 透過 `JWT token` 內的 `User.id` 到 MongoDB 資料庫中找出指定的 `user`，並將這個使用者資訊儲存到 `res.locals` 屬性中，以讓前端 `views/` 內的頁面能夠取用(access)到這個使用者的資料
+    * ```javascript
+      let user = await User.findById(decodedToken.id);
+      res.locals.user = user;
+      next();
+      ```
+
+> Node Auth Tutorial (JWT) #17 - Checking the Current User --- [課程連結](https://www.youtube.com/watch?v=JqF2BJBQI9Y&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=17)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
