@@ -69,7 +69,7 @@ Node.js + Express framework Authentication with JWT token
   + E.g. **Array 形式**: `min: [6, 'Must be at least 6, got {VALUE}']`
   + E.g. **Object 形式**: `enum: { values: ['Coffee', 'Tea'], message: '{VALUE} is not supported' }`
   + 註: mongoose validation 功能也支援基礎的模板字串語法，如同上面範例中的 `{VALUE}` 即表示當前正在進行驗證的欄位值
-- 實戰中，常用到的驗證功能可搭配 npm 上的 [validator.js](https://www.npmjs.com/package/validator) 函式庫來實現，在這個函式庫中有許多常見的驗證功能，E.g. `isEmail()`、`isCreditCard()` ...等等
+- 實戰中，常用到的驗證功能可搭配 npm 上的第三方函式庫 [validator.js](https://www.npmjs.com/package/validator) 函式庫來實現，在這個函式庫中有許多常見的驗證功能，E.g. `isEmail()`、`isCreditCard()` ...等等
 - 在 controller 中，建立一個用來專門產生錯誤事件的物件(=> errors object)的事件處理函數，該函數能依據各 API 拋出的 Error 物件中的以下 2 種常見屬性，來回傳一個新的錯誤事件的物件
   + `err.message`: 錯誤事件的訊息
   + `err.code`: 錯誤事件的編號
@@ -84,6 +84,20 @@ Node.js + Express framework Authentication with JWT token
   > 節錄自 Express 官方文件: Notice the call above to `next()`. Calling this function invokes the next middleware function in the app. The `next()` function is not a part of the Node.js or Express API, but is the third argument that is passed to the middleware function. The `next()` function could be named anything, but by convention it is always named “**next**”. To avoid confusion, always use this convention.
 
 > Node Auth Tutorial (JWT) #6 - Mongoose Hooks --- [課程影片連結](https://www.youtube.com/watch?v=teDkX-_Zkbw&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=6)
+
+### Ch 07 --- 將密碼加密
+- 在 Model.save() 被呼叫之前，可綁定一個 mongoose hook function，並在其中透過 npm 上的第三方函式庫 [bcrypt.js](https://www.npmjs.com/package/bcrypt) 來將 User Model 的 `password` 屬性值做加密(hash)
+- `bcrypt` 函式庫的加密功能原理說明，可分成以下 2 個步驟
+  + 步驟1: 將使用者輸入的值(e.g. password)透過指定的演算法(algorithm)來進行加密，會得到一串加密(hash)過的隨機字串(random string)。**這個步驟雖然看似沒問題，但駭客依然能透過演算法將這個加密字串反推(reverse)出原始的值!**
+    * ![Imgur](https://i.imgur.com/OZQp4iB.png)
+  + 步驟2: **`bcrypt` 函式庫會產生一個 `salt`**(=> 是密碼學中的專有名詞，意思是在要加密的字串中加特定的字符(`salt`)，打亂原始的字符串，使其生成的散列結果產生變化，其參數越高加鹽次數多越安全相對的加密時間就越長)。**並在利用演算法加密前，將這個 `salt` 加到使用者輸入的值(e.g. password)中**。因此，如同以下的圖解所示，我們最後會得到的就是 `salt + password => hashed new password`，並將這個**加鹽過的加密結果儲存到資料庫中**。
+    * ![Imgur](https://i.imgur.com/NvIPULo.png)
+    * `salt` 範例: $ `const salt = await bcrypt.genSalt()` => **注意! 這是一個非同步的方法，必須前綴 `await` 修飾子**
+    * `hash` 範例: $ `this.password = await bcrypt.hash(this.password, salt);` => **注意! 這是一個非同步的方法，必須前綴 `await` 修飾子**
+    * 課程範例結果: ![Imgur](https://i.imgur.com/c1RdAQh.png)
+  + 接下來，當使用者要透過帳號 & 密碼來登入網站時，後端伺服器(server)就會自動將 `salt` 值加到使用者輸入在登入畫面上的值，並且透過同一套演算法來得到一串加鹽過的加密字串，**再那這個加鹽過的加密字串跟資料庫中的相對應的使用者密碼進行比對**。若相同，則允許登入網站; 反之，則拒絕登入。
+
+> Node Auth Tutorial (JWT) #7 - Hashing Passwords --- [課程影片連結](https://www.youtube.com/watch?v=DmrjFKTLOYo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=7)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)

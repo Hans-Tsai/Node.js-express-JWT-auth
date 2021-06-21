@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -18,15 +19,10 @@ const userSchema = new mongoose.Schema({
 });
 
 // Mongoose hook function: 當 `doc` 被 Model.save() 到 MongoDB 資料庫"之前"，會觸發這個函數。其中 `doc` 參數即表示"準備" save 到資料庫的那個 document
-userSchema.pre('save', function (next) {
-  // 這邊的 `this` 參數即表示"準備"要 save 到資料庫的那個本地端(local)的 User Model 實例(instance)
-  console.log('user is about to be created & saved', this);
-  next();
-});
-
-// Mongoose hook function: 當 `doc` 被 Model.save() 到 MongoDB 資料庫"之後"，會觸發這個函數。其中 `doc` 參數即表示剛剛"已經" save 到資料庫的那個 document
-userSchema.post('save', function (doc, next) {
-  console.log('new user was created & saved', doc);
+userSchema.pre('save', async function (next) {
+  const salt = await bcrypt.genSalt();
+  // 這邊的 `this` 特殊變數是指向我們將要建立的那個新的 User Model 實例(instance)
+  this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
