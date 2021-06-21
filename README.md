@@ -209,6 +209,13 @@ Node.js + Express framework Authentication with JWT token
  
 > Node Auth Tutorial (JWT) #11 - New User Signup (part 1) --- [課程連結](https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11)
 
+### Ch12 --- 新使用者的註冊功能 (part 02)
+- **前端錯誤訊息優化**: 在 `views/signup.ejs` 頁面中，將 `emailError`、`passwordError` 兩個 DOM 節點加入顯示錯誤訊息的功能
+- **註冊成功後，頁面跳轉回首頁**: 當使用者成功註冊一個新帳號後，伺服器端會自動將使用導回網站首頁(=> 也就是 Hans Smoothies)
+
+> Node Auth Tutorial (JWT) #12 - New User Signup (part 2) --- [課程連結](https://www.youtube.com/watch?v=eWGwQ1__73E&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=12)
+
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
