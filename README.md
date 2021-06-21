@@ -99,6 +99,14 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #7 - Hashing Passwords --- [課程影片連結](https://www.youtube.com/watch?v=DmrjFKTLOYo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=7)
 
+### Ch08 --- 建立註冊、登入/登出的畫面
+- 利用 [EJS](https://ejs.co/) 模板模板引擎(template engine)給伺服器端渲染(SSR)頁面的模板，先建立好 2 個畫面
+  + 註冊: `views/signup.ejs`
+  + 登入/登出: `views/login.ejs`
+- 再利用 `EJS` 的 `partial` 功能，將網站的 `/signup`、`/login` 2 個頁面，新增到 `views/partials/header.ejs` 裡面
+
+> Node Auth Tutorial (JWT) #8 - Auth Views --- [課程影片連結](https://www.youtube.com/watch?v=8RiDRdHPcxA&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=8)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
