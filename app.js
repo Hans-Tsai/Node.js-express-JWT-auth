@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
+const { requireAuth } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -28,7 +29,8 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 //#region 
 /** 設定路由器 (routes) */
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', (req, res) => res.render('smoothies'));
+// 若對 `/smoothies` 這個頁面發送 `GET` request 時，必須先通過 `requireAuth` 這個中介函數來驗證客戶端(e.g. browser)是否在 `cookie` 中存有能通過驗證的 `JWT token`
+app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 // 相當於透過 `express app` 的中介函數來套用整個設定好的 `authRoutes` 路由器物件
 app.use(authRoutes);
 
