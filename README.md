@@ -238,6 +238,12 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #13 - Logging Users in (part 1) --- [課程連結](https://www.youtube.com/watch?v=VliJT26LPFA&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=13)
 
+### Ch14 --- 新使用者的註冊功能 (part 02)
+- 擴充 `controller` 檔案(`controllers/authController.js`) 的 `handleErrors`(錯誤事件處理函數)，在裡面新增驗證 `email`、`password` 兩種情境的錯誤訊息優化
+- 完成 `controller` 檔案(`controllers/authController.js`) 的 `login_post` RESTful API 的事件處理函數功能
+
+> Node Auth Tutorial (JWT) #14 - Logging Users in (part 2) --- [課程連結](https://www.youtube.com/watch?v=f-2jDPgh_Ng&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=14) 
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
