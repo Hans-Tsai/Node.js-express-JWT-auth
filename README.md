@@ -86,7 +86,7 @@ Node.js + Express framework Authentication with JWT token
 > Node Auth Tutorial (JWT) #6 - Mongoose Hooks --- [課程影片連結](https://www.youtube.com/watch?v=teDkX-_Zkbw&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=6)
 
 ### Ch 07 --- 將密碼加密
-- 在 Model.save() 被呼叫之前，可綁定一個 mongoose hook function，並在其中透過 npm 上的第三方函式庫 [bcrypt.js](https://www.npmjs.com/package/bcrypt) 來將 User Model 的 `password` 屬性值做加密(hash)
+- 在 Model.save() 被呼叫之前，可綁定一個 mongoose hook function，並在其中透過 npm 上的函式庫 [bcrypt.js](https://www.npmjs.com/package/bcrypt) 來將 User Model 的 `password` 屬性值做加密(hash)
 - `bcrypt` 函式庫的加密功能原理說明，可分成以下 2 個步驟
   + 步驟1: 將使用者輸入的值(e.g. password)透過指定的演算法(algorithm)來進行加密，會得到一串加密(hash)過的隨機字串(random string)。**這個步驟雖然看似沒問題，但駭客依然能透過演算法將這個加密字串反推(reverse)出原始的值!**
     * ![Imgur](https://i.imgur.com/OZQp4iB.png)
@@ -107,8 +107,46 @@ Node.js + Express framework Authentication with JWT token
 
 > Node Auth Tutorial (JWT) #8 - Auth Views --- [課程影片連結](https://www.youtube.com/watch?v=8RiDRdHPcxA&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=8)
 
+### Ch09 --- **`Cookie`** 基礎觀念介紹
+- **`Cookie`**: 是一種方法讓我們能儲存資料(data)在使用者的瀏覽器(user's browser)上。
+- **`Cookie`** 的運作方式: 當我們發送一個請求(API request)給伺服器端(server)時，這時伺服器會建立出一個 `cookie`，我們能決定這個 `cookie` 要儲存哪些資料? & 這個 `cookie` 能留存在這個瀏覽器(browser)多久的時間(=> 也就是該 `cookie` 在多久後會自動到期並刪除)?
+- 接下來，`cookie` 會隨著 server response 一併回傳給瀏覽器。之後，當瀏覽器接受到這個 `cookie` 時，就會將它註冊(register)在使用者的瀏覽器中
+- 之後，每當瀏覽器對指定的 RESTful API 發出 request 時，就會夾帶這個 `cookie` 上的資料一併發出 API request
+- cookie 運作機制的整合圖例:
+  + ![Imgur](https://i.imgur.com/egvT56A.gifv)
+> 註: 而正因為他是儲存在我們用戶的本機端，通常可以儲存的地方有兩個：記憶體 or 硬體內。記憶體是由瀏覽器(browser)來維護的，通常會在瀏覽器關閉後清除，而各個瀏覽器之間的 `cookie` 是無法相互使用，也就是說對於在同一台電腦上使用 Chrome 或是 Firefox，僅管操作的是同一個人，卻是會認成兩個不一樣的角色。而硬體的 `cookie` 則會有一個保存期限，除非過期或是手動刪除，不然他的儲存時間會較瀏覽器來的長。
+- `cookie` 可以夾帶 `JWT token` 讓我們能夠透過它來進行權限驗證
+- 實戰中，可利用 npm 上的第三方函式庫 [cookie-parser.js](https://www.npmjs.com/package/cookie-parser)來將 API request 夾帶的 `cookie header` 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 `req.cookies` 的屬性值，並綁定到 `request` 物件上。
+  + 範例做法: 
+    * ```javascript
+      const cookieParser = require('cookie-parser');
+
+      /** 中介函數 (middleware) */
+      // 將 API request 夾帶的 cookie header 資料"解析"成 Javascript 的物件 (object) 形式。同時會產生 req.cookies 的屬性值，並綁定到 `request` 物件上
+      app.use(cookieParser());
+
+      /** 設定 Cookie 的鍵/值資料 */
+      app.get('/set-cookies', (req, res) => {
+        // res.setHeader('Set-cookie', 'newUser=true');
+
+        res.cookie('newUser', true);
+        // 實戰中，權限驗證需在 HTTPS 中執行，因此必須加上 `secure: true` 的選項
+        res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+        res.send('you got the cookies!');
+      });
+      /** 透過 cookie-parser 函式庫，將產生出來的 `req.cookies` 以 JSON 的形式回傳給 client 端 */
+      app.get('/get-cookies', (req, res) => {
+        const cookies = req.cookies;
+        res.json(cookies);
+      });
+      ```
+
+> Node Auth Tutorial (JWT) #9 - Cookies Primer --- [課程影片連結](https://www.youtube.com/watch?v=mevc_dl1i1I&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=9)
+
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
 - [Mongoose Middleware 章節](https://mongoosejs.com/docs/middleware.html)
+- [Cross Site Request Forgery (CSRF) 攻擊 --- 介紹](https://owasp.org/www-community/attacks/csrf)
+- [Cookie 和 Session 究竟是什麼？有什麼差別？ --- by AlphaCamp](https://tw.alphacamp.co/blog/cookie-session-difference)
 - **The Net Ninja** YouTube 頻道上的 [**Node.js Auth Tutorial (JWT)**](https://www.youtube.com/watch?v=SnoAwLP1a-0&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp) 系列教學
   + 此課程提供的作者放在 GitHub 上的[開放原始碼](https://github.com/iamshaunjp/node-express-jwt-auth)
