@@ -242,7 +242,14 @@ Node.js + Express framework Authentication with JWT token
 - 擴充 `controller` 檔案(`controllers/authController.js`) 的 `handleErrors`(錯誤事件處理函數)，在裡面新增驗證 `email`、`password` 兩種情境的錯誤訊息優化
 - 完成 `controller` 檔案(`controllers/authController.js`) 的 `login_post` RESTful API 的事件處理函數功能
 
-> Node Auth Tutorial (JWT) #14 - Logging Users in (part 2) --- [課程連結](https://www.youtube.com/watch?v=f-2jDPgh_Ng&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=14) 
+> Node Auth Tutorial (JWT) #14 - Logging Users in (part 2) --- [課程連結](https://www.youtube.com/watch?v=f-2jDPgh_Ng&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=14)
+
+### Ch15 --- 透過驗證客戶端的 `JWT token` 的中介函數來保護指定的路由(route)
+- 建立一個能被重複使用的中介函數，來驗證客戶端 `cookie` 內的 `JWT token` 存在 & 有效
+  + 可利用 `jwt.verify()` 方法來實作
+- 在 `app.js` 中，找出指定要保護的路由，並在 `app.get(<routePath>, <middleware>, <callbackFunc>)` 中加入這個我們寫好的 `JWT token` 驗證中介函數(E.g. 在這次的課程中就是 `middleware/requireAuth.js`)
+
+> Node Auth Tutorial (JWT) #15 - Protecting Routes --- [課程連結](https://www.youtube.com/watch?v=9N7uqbuODqs&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=15)
 
 ### 參考資料
 - [JSON Web Token 官方網站](https://jwt.io/)
