@@ -86,7 +86,7 @@ Node.js + Express framework Authentication with JWT token
 > Node Auth Tutorial (JWT) #6 - Mongoose Hooks --- [課程影片連結](https://www.youtube.com/watch?v=teDkX-_Zkbw&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=6)
 
 ### Ch 07 --- 將密碼加密
-- 在 Model.save() 被呼叫之前，可綁定一個 mongoose hook function，並在其中透過 npm 上的函式庫 [bcrypt.js](https://www.npmjs.com/package/bcrypt) 來將 User Model 的 `password` 屬性值做加密(hash)
+- 在 `Model.save()` 被呼叫之前，可綁定一個 mongoose hook function，並在其中透過 npm 上的函式庫 [bcrypt.js](https://www.npmjs.com/package/bcrypt) 來將 User Model 的 `password` 屬性值做加密(hash)
 - `bcrypt` 函式庫的加密功能原理說明，可分成以下 2 個步驟
   + 步驟1: 將使用者輸入的值(e.g. password)透過指定的演算法(algorithm)來進行加密，會得到一串加密(hash)過的隨機字串(random string)。**這個步驟雖然看似沒問題，但駭客依然能透過演算法將這個加密字串反推(reverse)出原始的值!**
     * ![Imgur](https://i.imgur.com/OZQp4iB.png)
