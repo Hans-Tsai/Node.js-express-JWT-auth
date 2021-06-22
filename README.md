@@ -78,7 +78,7 @@ Node.js + Express framework Authentication with JWT token
 > Node Auth Tutorial (JWT) #5 - Mongoose Validation --- [課程影片連結](https://www.youtube.com/watch?v=nukNITdis9g&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=5)
 
 ### Ch06 --- Mongoose 內建的 Hooks(=> 就是中介函數 middleware function)
-- Mongoose hook: 是一種特別的函數，當綁定的事件(event)被觸發時，就會執行該事件所對應到的 hook function。
+- **Mongoose hook: 是一種特別的函數，當綁定的事件(event)被觸發時，就會執行該事件所對應到的 hook function**
   > 節錄自 Mongoose 官方文件: **Middleware (also called pre and post hooks) are functions which are passed control during execution of asynchronous functions. Middleware is specified on the schema level** and is useful for writing plugins.
   + 請記住! 必須要在 express 的每個中介函數(middleware function)、mongoose hook function 中的最後面都要加上 `next();`，以通知 express 能夠記住執行下一個中介函數 or mongoose hook function 了
   > 節錄自 Express 官方文件: Notice the call above to `next()`. Calling this function invokes the next middleware function in the app. The `next()` function is not a part of the Node.js or Express API, but is the third argument that is passed to the middleware function. The `next()` function could be named anything, but by convention it is always named “**next**”. To avoid confusion, always use this convention.
