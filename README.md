@@ -29,7 +29,7 @@ Node.js + Express framework Authentication with JWT token
     | ----- | ------------------- | ----------- |
     | **/signup** | `GET` | sign up page |
     | **/signup** | `POST` | create a new user in db |
-    | **/login** | `GET` | log **in** page |
+    | **/login** | `GET` | log in page |
     | **/login** | `POST` | authenticate a current user |
     | **/logout** | `GET` | log a user out |
 - 在 `views/` 資料夾中建立 `login.ejs`、`signup.ejs` 兩個 view 模板
