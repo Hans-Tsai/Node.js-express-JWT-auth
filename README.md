@@ -13,6 +13,8 @@ Node.js + Express framework Authentication with JWT token
 ### 操作說明
 - 在 local 端啟動 MongoDB Server
   + $ `mongod --dbpath mongodb-macos-x86_64-4.4.6/data/db`
+- 在 local 端啟動 Node.js Server
+  + $ `nodemon app.js`
 
 ### Ch 01 --- JWT 簡介 & 基礎設定
 - 一般來說，常見的使用者權限驗證方式會有以下兩種
