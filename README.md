@@ -4,7 +4,7 @@ Node.js + Express framework Authentication with JWT token
 ![Imgur](https://i.imgur.com/MIYoqBLt.png)
 
 # 簡介
-- 這是我在自學完 The Net Ninja 在 [YouTube 頻道]((https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg))上的 Node.js JWT 使用者權限驗證 的課程之後，所做的筆記 & 範例練習
+- 這是我在自學完 The Net Ninja 在 [YouTube 頻道](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)上的 Node.js JWT 使用者權限驗證 的課程之後，所做的筆記 & 範例練習
 - 在這系列的教學課程中，我們除了會學到如何在 Node.js + express 的環境下，透過 JSON Web Token(= `JWT`) 來進行使用者權限驗證
 - 在課程結束前，我們也會做一個範例網站練習 --- **Hans Smoothies**，在這個網站中會包含以下兩個功能，讓我們趕緊開始吧!
   + 註冊會員
