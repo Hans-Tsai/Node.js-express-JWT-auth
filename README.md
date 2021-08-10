@@ -181,7 +181,7 @@ Node.js + Express framework Authentication with JWT token
         }
         ```
       > 註: 以上的 `payload` 物件，會被透過 **Base64Url** 演算法來編碼(encode)成之後的 `JWT token` 的第二段主要部分
-  + `signature`: 簽章。即用來保護這個 `JWT token` 是安全且不會被客戶端(client)隨意竄改、攔截的。這個簽章是由前面的 `header`、`payload` 兩個參數值所組成的，並搭配 `secret` 來進行加密。通常，`payload` 會包含以下 3 個部分
+  + `signature`: 簽章。即用來保護這個 `JWT token` 是安全且不會被客戶端(client)隨意竄改、攔截的。這個簽章是由前面的 `header`、`payload` 兩個參數值所組成的，並搭配 `secret` 來進行加密。通常，`signature` 會包含以下 3 個部分
     * `encoded header`: 已經由 **Base64Url** 演算法編碼後的 `header`，會取用裡面的 `alg` 屬性值來作為這次要產生的 `JWT token` 指定演算法基礎
     * `encoded payload`: 已經由 **Base64Url** 演算法編碼後的 `payload`
     * `secret`: 相當於 **bcrypt.js** 的 `salt`。儲存在伺服器端(server)的，**必須是非公開的**。
