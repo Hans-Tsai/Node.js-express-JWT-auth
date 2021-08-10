@@ -70,7 +70,7 @@ const login_post = async (req, res) => {
     const user = await User.login(email, password);
     // 產生一個帶有簽章(signature)的 JWT token
     const token = createToken(user._id);
-    // 將這個 JWT token 儲存到 response 物件的 cookie 中，並設定只能給 Web Server 的發送 http(s) request 的時候才能使用，以防止客戶端透過 javascript 來算改此 JWT token
+    // 將這個 JWT token 儲存到 response 物件的 cookie 中，並設定只能給 Web Server 的發送 http(s) request 的時候才能使用，以防止客戶端透過 javascript 來竄改此 JWT token
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxValidDuration * 1000 });
     res.status(200).json({ user: user._id })
   }
