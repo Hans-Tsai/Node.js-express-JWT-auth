@@ -101,7 +101,7 @@ Node.js + Express framework Authentication with JWT token
     * `salt` 範例: $ `const salt = await bcrypt.genSalt()` => **注意! 這是一個非同步的方法，必須前綴 `await` 修飾子**
     * `hash` 範例: $ `this.password = await bcrypt.hash(this.password, salt);` => **注意! 這是一個非同步的方法，必須前綴 `await` 修飾子**
     * 課程範例結果: ![Imgur](https://i.imgur.com/c1RdAQh.png)
-  + 接下來，當使用者要透過帳號 & 密碼來登入網站時，後端伺服器(server)就會自動將 `salt` 值加到使用者輸入在登入畫面上的值，並且透過同一套演算法來得到一串加鹽過的加密字串，**再那這個加鹽過的加密字串跟資料庫中的相對應的使用者密碼進行比對**。若相同，則允許登入網站; 反之，則拒絕登入。
+  + 接下來，當使用者要透過帳號 & 密碼來登入網站時，後端伺服器(server)就會自動將 `salt` 值加到使用者輸入在登入畫面上的值，並且透過同一套演算法來得到一串加鹽過的加密字串，**再拿這個加鹽過的加密字串跟資料庫中的相對應的使用者密碼進行比對**。若相同，則允許登入網站; 反之，則拒絕登入。
 
 > Node Auth Tutorial (JWT) #7 - Hashing Passwords --- [課程影片連結](https://www.youtube.com/watch?v=DmrjFKTLOYo&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=7)
 
