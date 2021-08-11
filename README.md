@@ -204,7 +204,7 @@ Node.js + Express framework Authentication with JWT token
   + 客戶端儲存下這個 `JWT token`，並在後續的每次對相對應的 RESTful API 發出 request 時，都會在 `cookie` 中夾帶這個 `JWT token` **以作為伺服器端驗證該瀏覽器上的使用者資訊的對照結果**
     * ![Imgur](https://i.imgur.com/9oSb4AX.png)
     * ![Imgur](https://i.imgur.com/Lt82sWe.png)
-  + 伺服器端會透過儲存在伺服器(server)上的 `secret`，搭配客戶端傳來的 `header`、`payload` 伺服器端的 `secret` 來進行編碼。並拿這次編碼的結果與 `JWT token` 做比對，若相符，就允許通過驗證; 反之，則拒絕這次的驗證請求
+  + 伺服器端會透過儲存在伺服器(server)上的 `secret`，搭配客戶端傳來的 `header`、`payload`、伺服器端的 `secret` 來進行編碼。並拿這次編碼的結果與 `JWT token` 做比對，若相符，就允許通過驗證; 反之，則拒絕這次的驗證請求
 
 > Node Auth Tutorial (JWT) #10 - JSON Web Tokens (theory) --- [課程影片連結](https://www.youtube.com/watch?v=LZq0G8WUaII&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=10)
 
