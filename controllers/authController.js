@@ -30,7 +30,7 @@ const handleErrors = (err) => {
 /** 建立一個用來產生 JWT token 的函數 
  * @returns 回傳一個帶有簽章(signature)的 JWT token
 */
-// JWT token 的有效期間長度，`res.sign()` 是以秒為單位
+// JWT token 的有效期間長度，`jwt.sign()` 是以秒為單位
 const maxValidDuration = 3 * 24 * 60 * 60;
 const createToken = (id) => {
   return jwt.sign({ id }, 'Hans Smoothies secret', {
